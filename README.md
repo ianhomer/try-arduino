@@ -2,6 +2,7 @@
 
 ## tl;dr
 
+    brew install arduino-cli
     arduino-cli config init
     arduino-cli core update-index
     arduino-cli board list

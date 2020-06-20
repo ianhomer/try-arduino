@@ -44,11 +44,7 @@ void loop()
     delay(delayTime);
   }
 
-  off(50);
-
-  redValue = 0;
-  greenValue = 255;
-  blueValue = 0;
+  //off(50);
 
   for (int i = 0; i < 255; i += 1) // fades out green bring blue full when i=255
   {
@@ -62,11 +58,7 @@ void loop()
     delay(delayTime);
   }
 
-  redValue = 0;
-  greenValue = 0;
-  blueValue = 255;
-
-  off(50);
+  //off(50);
 
   for (int i = 0; i < 255; i += 1) // fades out blue bring red full when i=255
   {
