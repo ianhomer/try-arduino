@@ -21,7 +21,7 @@ int blueValue;
 // main loop
 void loop()
 {
-#define delayTime 5 // fading time between colors
+  #define delayTime 5 // fading time between colors
 
   redValue = 255; // choose a value between 1 and 255 to change the color.
   greenValue = 255;

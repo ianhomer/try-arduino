@@ -8,13 +8,9 @@
     arduino-cli core install arduino:avr
     arduino-cli core list
 
-Then compile
+Then compile and upload
 
-    arduino-cli compile --fqbn arduino:avr:mega rgb
-
-And upload
-
-    arduino-cli upload -p /dev/cu.usbmodem14301 --fqbn arduino:avr:mega
+    (cd rgb ; deploy.sh)
 
 ## Further Reading
 
