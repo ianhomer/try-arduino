@@ -44,16 +44,19 @@
 LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 
 int buttonPin = 4;
+int ledPin = 5;
 long offset = 5000;
 int buttonState = 0;
 int buttonPreviousState = 0;
 int explodingCount = 0;
+int flashSpeed = 1000;
 long count = 0;
 
 void setup() {
   // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
   pinMode(buttonPin, INPUT_PULLUP);
+  pinMode(ledPin, OUTPUT);
   // Print a message to the LCD.
   display();
 }
@@ -62,12 +65,16 @@ void display() {
   lcd.setCursor(0,0);
   if (buttonState == LOW) {
     if (explodingCount < 200) {
+      flashSpeed = 1000;
       lcd.print("stop pressing me");
-    } else if (explodingCount < 400) {
+    } else if (explodingCount < 800) {
       lcd.print("fool, stop it    ");
-    } else if (explodingCount < 600) {
+      flashSpeed = 200;
+    } else if (explodingCount < 1200) {
+      flashSpeed = 100;
       lcd.print("... DANGER ......... ");
     } else {
+      flashSpeed = 50;
       lcd.print("BANG!!!!!!!!!!!!");
     }
   } else {
@@ -80,6 +87,15 @@ void display() {
   }
 }
 
+void flash() {
+  int on = (millis() / flashSpeed) % 2;
+  if (on == 1) {
+    digitalWrite(ledPin, HIGH);
+  } else {
+    digitalWrite(ledPin, LOW);
+  } 
+}
+
 void loop() {
   buttonState = digitalRead(buttonPin);
   if (buttonState != buttonPreviousState) {
@@ -89,8 +105,10 @@ void loop() {
   if (buttonState == LOW) {
     offset += 1000;
     explodingCount++;
+    flash();
   } else {
     explodingCount = 0;
+    digitalWrite(ledPin, LOW);
   }
   // set the cursor to column 0, line 1
   // (note: line 1 is the second row, since counting begins with 0):
