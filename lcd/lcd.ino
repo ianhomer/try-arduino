@@ -44,10 +44,11 @@
 LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 
 int buttonPin = 4;
-int offset = 5000;
+long offset = 5000;
 int buttonState = 0;
 int buttonPreviousState = 0;
-int count = 0;
+int explodingCount = 0;
+long count = 0;
 
 void setup() {
   // set up the LCD's number of columns and rows:
@@ -59,20 +60,37 @@ void setup() {
 
 void display() {
   lcd.setCursor(0,0);
-  lcd.print("cows : ");
-  lcd.print(buttonState);
-  lcd.print(":");
-  lcd.print(count);
-  lcd.print(":");
-  lcd.print(digitalRead(buttonPin));
+  if (buttonState == LOW) {
+    if (explodingCount < 200) {
+      lcd.print("stop pressing me");
+    } else if (explodingCount < 400) {
+      lcd.print("fool, stop it    ");
+    } else if (explodingCount < 600) {
+      lcd.print("... DANGER ......... ");
+    } else {
+      lcd.print("BANG!!!!!!!!!!!!");
+    }
+  } else {
+    lcd.print("cows : ");
+    lcd.print(buttonState);
+    lcd.print(":");
+    lcd.print(count);
+    lcd.print(":");
+    lcd.print(digitalRead(buttonPin));
+  }
 }
 
 void loop() {
   buttonState = digitalRead(buttonPin);
   if (buttonState != buttonPreviousState) {
     buttonPreviousState = buttonState;
-    offset += 100;
     count++;
+  }
+  if (buttonState == LOW) {
+    offset += 1000;
+    explodingCount++;
+  } else {
+    explodingCount = 0;
   }
   // set the cursor to column 0, line 1
   // (note: line 1 is the second row, since counting begins with 0):
