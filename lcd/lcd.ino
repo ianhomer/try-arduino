@@ -43,17 +43,34 @@
 // initialize the library with the numbers of the interface pins
 LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 
+int buttonPin = 2;
+int offset = 5000;
+int buttonState = 0;
+int buttonPreviousState = 0;
+
 void setup() {
   // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
   // Print a message to the LCD.
-  lcd.print("Hello, Danny!!");
+  display();
+}
+
+void display() {
+  lcd.setCursor(0,0);
+  lcd.print("cows : ");
+  lcd.print(buttonState);
 }
 
 void loop() {
+  buttonState = digitalRead(buttonPin);
+  if (buttonState != buttonPreviousState) {
+    buttonPreviousState = buttonState;
+    offset += 100;
+  }
   // set the cursor to column 0, line 1
   // (note: line 1 is the second row, since counting begins with 0):
-  lcd.setCursor(0, 1);
+  lcd.setCursor(0, 193);
   // print the number of seconds since reset:
-  lcd.print(millis() / 1000);
+  lcd.print(offset + (millis() / 1000));
+  display();
 }
